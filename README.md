@@ -5,5 +5,5 @@ In this paper, we advocate explicitly describing kinematics information via velo
 <div style="text-align: center;">
   <h2>Network Architecture</h2>
 </div>
-<img src="https://github.com/BIT-MJY/Active-SLAM-Based-on-Information-Theory/blob/master/img/1-2.png" width="180" height="105">
+<img src="images/architecture.png" width="180" height="105">
 
