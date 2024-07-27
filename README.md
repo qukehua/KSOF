@@ -5,7 +5,18 @@ In this paper, we advocate explicitly describing kinematics information via velo
 <div style="text-align: center;">
   <h2>Network Architecture</h2>
 </div>
-<img src="images/architecture.png" >
+<img src="images/architecture.png" style="width:70%; height:70%;">
 <div style="text-align: center;">
   <h2>Requirements</h2>
+</div>
+
+
+
+<div style="text-align: center;">
+  <h2>Training</h2>
+</div>
+
+
+<div style="text-align: center;">
+  <h2>Evaluation</h2>
 </div>
