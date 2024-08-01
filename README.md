@@ -1,11 +1,21 @@
-# siMLPe
-**Back to MLP: A Simple Baseline for Human Motion Prediction(WACV 2023)** 
+# KSOF
+**KSOF: Leveraging Kinematics and Spatio-temporal Optimal Fusion for Human Motion Prediction** 
 
-A simple-yet-effective network achieving **SOTA** performance.
-
-In this paper, we propose a naive MLP-based network for human motion prediction. The network consists of only FCs, LayerNorms and Transpose operation. There is no non-linear activation in our network.
-
-[paper link](https://arxiv.org/abs/2207.01567)
+### Abstract
+------
+Ignoring the meaningful kinematics law, which generates improbable or impractical predictions, is one of the obstacles
+to human motion prediction. Current methods attempt to tackle this problem by taking simple kinematics information
+as auxiliary features to improve predictions. It remains challenging to utilize human prior knowledge deeply, such
+as the trajectory formed by the same joint should be smooth and continuous on this task. In this paper, we advocate
+explicitly describing kinematics information via velocity and acceleration by proposing a novel loss called joint point
+smoothness (JPS) loss, which calculates the acceleration of joints to smooth the sudden change in joint velocity. In
+addition, capturing spatio-temporal dependencies to make feature representations more informative is also one of the
+obstacles in this task. Therefore, we propose a dual-path network (KSOF) that models the temporal and spatial dependencies from kinematic temporal convolutional network (K-TCN) and spatial graph convolutional networks (S-GCN),
+respectively. Moreover, we propose a novel multi-scale fusion module named spatio-temporal optimal fusion (SOF)
+to better capture the essential correlation and important features at different scales from spatio-temporal coupling
+features. We evaluate our approach on three standard benchmark datasets, including Human3.6M, CMU-Mocap, and
+3DPW datasets. For both short-term and long-term predictions, our method achieves outstanding performance on all
+these datasets, confirming its effectiveness.
 
 ### Network Architecture
 ------
