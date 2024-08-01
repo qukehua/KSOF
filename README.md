@@ -19,20 +19,14 @@ these datasets, confirming its effectiveness.
 
 ### Network Architecture
 ------
-![image](.github/pipeline.png)
-
-> **_NOTE:_** In the paper, we asume that FC is realized by nn.conv1D, so we have two transpose operation before/after the spacial FC layers, see the pipeline figure. While in this repo, we use nn.Linear to implement FC, so in the code there is only one transpose after the spacial FC layer. These two implementations are equivalent. (for a input tensor (b, n, d), nn.conv1D operates on dimention n, while nn.Linear operates on dimention d).
+![image](images/architecture.png)
 
 ### Requirements
 ------
-- PyTorch >= 1.5
+- PyTorch = 1.8.0
 - Numpy
-- CUDA >= 10.1
-- Easydict
-- pickle
-- einops
-- scipy
-- six
+- CUDA = 11.4
+- Python = 3.1.0
 
 ### Data Preparation
 ------
@@ -53,18 +47,6 @@ data
 |   |-- S11
 ```
 
-[AMASS](https://amass.is.tue.mpg.de/)
-
-Directory structure:
-```shell script
-data
-|-- amass
-|   |-- ACCAD
-|   |-- BioMotionLab_NTroje
-|   |-- CMU
-|   |-- ...
-|   |-- Transitions_mocap
-```
 
 [3DPW](https://virtualhumans.mpi-inf.mpg.de/3DPW/)
 
