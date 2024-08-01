@@ -30,15 +30,13 @@ these datasets, confirming its effectiveness.
 
 ### Data Preparation
 ------
-Download all the data and put them in the `./data` directory.
+Download all the data and put them in the [dataset path].
 
 [H3.6M](https://drive.google.com/file/d/15OAOUrva1S-C_BV8UgPORcwmWG2ul4Rk/view?usp=share_link)
 
-[Original stanford link](http://www.cs.stanford.edu/people/ashesh/h3.6m.zip) has crashed, this link is a backup.
-
-Directory structure:
+Directory structure: 
 ```shell script
-data
+[dataset path]
 |-- h36m
 |   |-- S1
 |   |-- S5
@@ -48,11 +46,13 @@ data
 ```
 
 
+[CMU mocap](http://mocap.cs.cmu.edu/) 
+
 [3DPW](https://virtualhumans.mpi-inf.mpg.de/3DPW/)
 
 Directory structure: 
 ```shell script
-data
+[dataset path]
 |-- 3dpw
 |   |-- sequenceFiles
 |   |   |-- test
@@ -62,45 +62,114 @@ data
 
 ### Training
 ------
-#### H3.6M
-```bash
-cd exps/baseline_h36m/
-sh run.sh
-```
++ Train on Human3.6M:
 
-#### AMASS
-```bash
-cd exps/baseline_amass/
-sh run.sh
-```
+`
+python main_h36m.py
+--data_dir
+[dataset path]
+--num_gcn
+4
+--dct_n
+15
+--input_n
+10
+--output_n
+10
+--skip_rate
+1
+--batch_size
+32
+--test_batch_size
+64
+--node_n
+66
+--cuda_idx
+cuda:0
+--d_model
+16
+--lr_now
+0.0005
+--epoch
+100
+--test_sample_num
+-1
+`
+
++ Train on CMU-MoCap:
+
+`
+python main_cmu_3d.py
+--data_dir
+[dataset path]
+--num_gcn
+4
+--dct_n
+15
+--input_n
+10
+--output_n
+25
+--skip_rate
+1
+--batch_size
+16
+--test_batch_size
+32
+--node_n
+75
+--cuda_idx
+cuda:0
+--d_model
+16
+--lr_now
+0.005
+--epoch
+100
+--test_sample_num
+-1
+`
+
++ Train on 3DPW:
+
+`
+--data_dir
+[dataset path]
+--num_gcn
+4
+--dct_n
+15
+--input_n
+10
+--output_n
+30
+--skip_rate
+1
+--batch_size
+32
+--test_batch_size
+64
+--node_n
+69
+--cuda_idx
+cuda:0
+--d_model
+16
+--lr_now
+0.001
+--epoch
+100
+--test_sample_num
+-1
+`
+未选择任何文件
+
 
 ## Evaluation
 ------
-#### H3.6M
-```bash
-cd exps/baseline_h36m/
-python test.py --model-pth your/model/path
-```
+Add `--is_eval` after the above training commands.
 
-#### AMASS
-```bash
-cd exps/baseline_amass/
-#Test on AMASS
-python test.py --model-pth your/model/path 
-#Test on 3DPW
-python test_3dpw.py --model-pth your/model/path 
-```
+The test result will be saved in `./checkpoint/`.
 
-### Citation
-If you find this project useful in your research, please consider cite:
-```bash
-@article{guo2022back,
-  title={Back to MLP: A Simple Baseline for Human Motion Prediction},
-  author={Guo, Wen and Du, Yuming and Shen, Xi and Lepetit, Vincent and Xavier, Alameda-Pineda and Francesc, Moreno-Noguer},
-  journal={arXiv preprint arXiv:2207.01567},
-  year={2022}
-}
-```
-
-### Contact
-Feel free to contact [Wen](wen.guo@inria.fr) or [Me](yuming.du@enpc.fr) or open a new issue if you have any questions.
+#### Ackowlegments
+Our code is based on [PGBIG](https://github.com/705062791/PGBIG) and [Dpnet](https://ieeexplore.ieee.org/document/10025861).
