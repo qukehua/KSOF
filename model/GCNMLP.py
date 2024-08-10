@@ -64,7 +64,7 @@ class TGP_BLOCK(nn.Module):
                                stride=1, padding=2)
         self.conv3 = nn.Conv1d(in_channels=self.output_feature, out_channels=self.output_feature, kernel_size=3,
                                stride=1, padding=1)
-        self.mlp = nn.Linear(66+33+16+8,self.output_feature)
+        self.mlp = nn.Linear(128+3*3*J/2,self.output_feature)
     def forward(self,x):
         x1 = self.act1(x)
         x1 = self.conv1(x1)      #(16,10,66)
