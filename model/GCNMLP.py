@@ -182,7 +182,7 @@ class GCN_TCN(nn.Module):
         y_gcn = self.GCN(x_gcn).permute(0, 2, 1)
         y_gcn = self.se(y_gcn)
 
-        y = torch.cat([y_tcn, y_gcn], 1)        #(16,20,66)
+        y = torch.cat([y_tcn, y_gcn], 2)        #(16,10,128)
 
         y = TGP_BLOCK(y)
 
