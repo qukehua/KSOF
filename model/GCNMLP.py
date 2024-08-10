@@ -68,13 +68,13 @@ class TGP_BLOCK(nn.Module):
     def forward(self,x):
         x1 = self.act1(x)
         x1 = self.conv1(x1)      #(16,10,66)
-        y1 = topk_pool(x1.permute(0,2,1),k= 3*J/2)     #(16,33,10)
+        y1 = topk_pool(x1.permute(0,2,1),k= 3*J/2)     #(16,44,10)
         x2 = self.act2(x1)
         x2 = self.conv2(x2)
-        y2 = topk_pool(x2.permute(0,2,1),k= 3*J/2)     #(16,16,10)
+        y2 = topk_pool(x2.permute(0,2,1),k= 3*J/2)     #(16,44,10)
         x3 = self.act3(x2)
         x3 = self.conv3(x3)
-        y3 = topk_pool(x3.permute(0,2,1),k= 3*J/2)      #(16,8,10)
+        y3 = topk_pool(x3.permute(0,2,1),k= 3*J/2)      #(16,44,10)
         y= torch.cat(x,y1,y2,y3, dim=1)
         y = self.mlp(y.permute(0,2,1))            #(16,10,66)
 
