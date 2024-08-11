@@ -162,7 +162,7 @@ cuda:0
 --test_sample_num
 -1
 `
-未选择任何文件
+
 
 
 ## Evaluation
