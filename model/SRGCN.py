@@ -11,9 +11,7 @@ import math
 
 
 class GraphConvolution(nn.Module):
-    """
-    adapted from : https://github.com/tkipf/gcn/blob/92600c39797c2bfb61a508e52b88fb554df30177/gcn/layers.py#L132
-    """
+
 
     def __init__(self, in_features, out_features, bias=True, node_n=48):
         super(GraphConvolution, self).__init__()
