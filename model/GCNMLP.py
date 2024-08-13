@@ -9,9 +9,7 @@ from model import SRGCN as GCN
 from model import KTCN as TCN
 from timm.models.layers import DropPath
 
-'''
-    MLP与GCN各一路
-'''
+
 
 class SELayer(nn.Module):
     def __init__(self, c, r=4, use_max_pooling=False):
@@ -67,14 +65,14 @@ class TGP_BLOCK(nn.Module):
         self.mlp = nn.Linear(128+3*3*J/2,self.output_feature)
     def forward(self,x):
         x1 = self.act1(x)
-        x1 = self.conv1(x1)      #(16,10,66)
-        y1 = topk_pool(x1.permute(0,2,1),k= 3*J/2)     #(16,33,10)
+        x1 = self.conv1(x1)     
+        y1 = topk_pool(x1.permute(0,2,1),k= 3*J/2)    
         x2 = self.act2(x1)
         x2 = self.conv2(x2)
-        y2 = topk_pool(x2.permute(0,2,1),k= 3*J/2)     #(16,33,10)
+        y2 = topk_pool(x2.permute(0,2,1),k= 3*J/2)    
         x3 = self.act3(x2)
         x3 = self.conv3(x3)
-        y3 = topk_pool(x3.permute(0,2,1),k= 3*J/2)      #(16,33,10)
+        y3 = topk_pool(x3.permute(0,2,1),k= 3*J/2)     
         y= torch.cat(x,y1,y2,y3, dim=1)
         y = self.mlp(y.permute(0,2,1))            #(16,10,66)
 
@@ -85,17 +83,17 @@ class TGP_BLOCK(nn.Module):
 
 
 def gen_velocity(m):
-    input = [m[:, 0, :] - m[:, 0, :]]  # 差值[16  66]
+    input = [m[:, 0, :] - m[:, 0, :]] 
 
     for k in range(m.shape[1] - 1):
         input.append(m[:, k + 1, :] - m[:, k, :])
-    input = torch.stack((input)).permute(1, 0, 2)  # [16 35 66]
+    input = torch.stack((input)).permute(1, 0, 2)  
 
     return input
 
 def gen_acceleration(m):
     velocity = [m[:, k + 1, :] - m[:, k, :] for k in range(m.shape[1] - 1)]
-    acceleration = [velocity[0] - velocity[0]]  # 初始化为0
+    acceleration = [velocity[0] - velocity[0]]  
 
     for k in range(len(velocity) - 1):
         acceleration.append(velocity[k + 1] - velocity[k])
@@ -170,7 +168,7 @@ class GCN_TCN(nn.Module):
         x_tcn = gen_velocity(x.clone())
 
 
-        x_gcn = self.POSEembedding0(x_gcn.permute(0, 2, 1))  # 空间维度嵌入
+        x_gcn = self.POSEembedding0(x_gcn.permute(0, 2, 1)) 
         x_tcn = self.POSEembedding1(x_tcn)  # 时间维度嵌入
         for i in range(self.num_tcn):
             y_tcn = self.TCN(x_tcn)
