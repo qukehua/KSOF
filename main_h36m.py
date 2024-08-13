@@ -176,8 +176,8 @@ def eval(opt):
 
 		avg_ret_log.append(ret_log[1:])
 		log.save_csv_eval_log(opt, head, ret_log, is_create=is_create)
-		log.save_npy_log(opt, opt.predict_npy, value=out_seq, is_create=is_create, file_name=act)  # 编写预测输出npy
-		log.save_npy_log(opt, opt.truth_npy, value=out_tru, is_create=is_create, file_name=act)  # 编写实际输出npy
+		log.save_npy_log(opt, opt.predict_npy, value=out_seq, is_create=is_create, file_name=act)  
+		log.save_npy_log(opt, opt.truth_npy, value=out_tru, is_create=is_create, file_name=act) 
 		is_create = False
 
 	avg_ret_log = np.array(avg_ret_log, dtype=np.float64)
@@ -190,11 +190,11 @@ def eval(opt):
 
 
 def gen_velocity(m):
-    input = [m[:, 0, :] - m[:, 0, :]]  # 差值[16  66]
+    input = [m[:, 0, :] - m[:, 0, :]]  
 
     for k in range(m.shape[1] - 1):
         input.append(m[:, k + 1, :] - m[:, k, :])
-    input = torch.stack((input)).permute(1, 0, 2)  # [16 35 66]
+    input = torch.stack((input)).permute(1, 0, 2)  
 
     return input
 
@@ -269,7 +269,7 @@ def run_model(net_pred, optimizer=None, is_train=0, data_loader=None, epo=1, opt
 		pred_final = pred_all.reshape([batch_size, out_n, len(dim_used) // 3, 3])
 		pred_v1 = gen_velocity(pred_final[:,2:out_n,:,:])
 		pred_v2 = gen_velocity(pred_final[:,3:out_n,:,:])
-		if is_train == 0:  # 训练
+		if is_train == 0:  
 			alpha = torch.tensor(0.5, requires_grad=True)
 			beta = torch.tensor(0.5, requires_grad=True)
 			loss_jps = torch.mean(torch.norm(pred_v1 - pred_v2, dim=3))
@@ -280,7 +280,7 @@ def run_model(net_pred, optimizer=None, is_train=0, data_loader=None, epo=1, opt
 
 			optimizer.zero_grad()
 			loss_all.backward()
-			nn.utils.clip_grad_norm_(list(net_pred.parameters()), max_norm=opt.max_norm)  # 梯度剪裁
+			nn.utils.clip_grad_norm_(list(net_pred.parameters()), max_norm=opt.max_norm)  
 			optimizer.step()
 
 
@@ -289,7 +289,7 @@ def run_model(net_pred, optimizer=None, is_train=0, data_loader=None, epo=1, opt
 			l_p3d += loss_all.cpu().data.numpy() * batch_size
 			alpha.data -= opt.lr_now * alpha.grad.data
 			beta.data -= opt.lr_now * beta.grad.data
-		if is_train <= 1:  # if is validation or train simply output the overall mean error 验证或简单训练
+		if is_train <= 1:  
 			mpjpe_p3d_h36 = torch.mean(torch.norm(p3d_h36[:, in_n:] - p3d_out_4, dim=3))
 			m_p3d_h36 += mpjpe_p3d_h36.cpu().data.numpy() * batch_size
 
