@@ -290,11 +290,11 @@ def run_model(net_pred, optimizer=None, is_train=0, data_loader=None, epo=1, opt
 			alpha.data -= opt.lr_now * alpha.grad.data
 			beta.data -= opt.lr_now * beta.grad.data
 		if is_train <= 1:  
-			mpjpe_p3d_h36 = torch.mean(torch.norm(pred_final[:, in_n:] - p3d_sup_4 , dim=3))
+			mpjpe_p3d_h36 = torch.mean(torch.norm(pred_final[:, in_n:] - out_tru[:, in_n:] , dim=3))
 			m_p3d_h36 += mpjpe_p3d_h36.cpu().data.numpy() * batch_size
 
 		else:  # 测试
-			mpjpe_p3d_h36 = torch.sum(torch.mean(torch.norm(pred_final[:, in_n:] - p3d_sup_4 , dim=3), dim=2), dim=0)
+			mpjpe_p3d_h36 = torch.sum(torch.mean(torch.norm(pred_final[:, in_n:] - out_tru[:, in_n:] , dim=3), dim=2), dim=0)
 			m_p3d_h36 += mpjpe_p3d_h36.cpu().data.numpy()
 
 	ret = {}
